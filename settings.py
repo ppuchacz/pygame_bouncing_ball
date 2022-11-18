@@ -1,11 +1,39 @@
+from config.level import Level
+from config.player import PlayerConfig
+
+
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
 
-CELLS_COUNT_WIDTH = 30
-CELLS_COUNT_HEGHT = 30
-
 # CELLS_
 
-LEVEL = [
+LEVEL = Level(
+    WINDOW_WIDTH,
+    WINDOW_HEIGHT,
+    10,
+    10,
+    300,
+    10,
+    5,
+    5,
+    [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
+    ]
+)
 
-]
+PLAYER = PlayerConfig(
+    (WINDOW_WIDTH, WINDOW_HEIGHT),
+    2,
+    30,
+    20,
+    20,
+    500.0
+)
