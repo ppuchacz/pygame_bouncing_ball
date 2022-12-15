@@ -37,3 +37,5 @@ PLAYER = PlayerConfig(
     20,
     500.0
 )
+
+BALL_INITIAL_POSITION = (100, 100)

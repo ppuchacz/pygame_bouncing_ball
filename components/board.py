@@ -1,6 +1,7 @@
 from pygame import Surface
 import pygame
 from config.level import Level
+from service.collision_manager.rect_collider import RectangleCollider
 
 WIDTH = 800
 HEIGHT = 600
@@ -13,19 +14,21 @@ CELL_COLOR = (150, 50, 80)
 
 
 class Cell:
-    widht: int
+    width: int
     height: int
     x: int
     y: int
+    collider: RectangleCollider
 
-    def __init__(self, widht, height, x, y) -> None:
-        self.widht = widht
+    def __init__(self, width, height, x, y) -> None:
+        self.width = width
         self.height = height
         self.x = x
         self.y = y
+        self.collider = RectangleCollider((x, y), width, height)
     
     def draw(self, screen: Surface):
-        pygame.draw.rect(screen, CELL_COLOR, (self.x, self.y, self.widht, self.height))
+        pygame.draw.rect(screen, CELL_COLOR, (self.x, self.y, self.width, self.height))
 
 
 
@@ -49,7 +52,13 @@ class Board:
                 y_pos = level.margin_top + (row_nr * (cell_height + level.cell_spacing_v))
                 self.board.append(Cell(cell_width, cell_height, x_pos, y_pos))
 
-
     def draw(self, screen: Surface):
         for cell in self.board:
             cell.draw(screen)
+
+    def get_colliders(self) -> list:
+        output = []
+        for cell in self.board:
+            output.append(cell.collider)
+
+        return output

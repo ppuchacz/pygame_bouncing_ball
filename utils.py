@@ -16,3 +16,9 @@ def clone_list(array: list):
 
         raise TypeError('Can\'t clone variable which is not nested list of primitive types')
 
+def to_array(tuple: tuple):
+    output = []
+    for i in tuple:
+        output.append(i)
+    
+    return output

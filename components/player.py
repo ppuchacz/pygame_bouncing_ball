@@ -4,16 +4,17 @@ import pygame
 from config.player import PlayerConfig
 
 COLOR = (100, 150, 20)
+COLLISION_TRIGGERED_COLOR = (255, 50, 50)
 
 
 class Player:
     def __init__(self, config: PlayerConfig) -> None:
+        self.color = COLOR
         self.config = config
         self.position = [0, 0]
         self.size = self.config.initial_size
         self.reset_position()
         self.size = config.initial_size
-        self.last_update_time = pygame.time.get_ticks()
         self.delta_time = 0.0
     
     def on_key_up(self, code):
@@ -38,17 +39,23 @@ class Player:
 
     def draw(self, surface: Surface):
         rect = (self.get_pos_x(), self.get_pos_y(), self.get_width(), self.get_height())
-        pygame.draw.rect(surface, COLOR, rect)
+        pygame.draw.rect(surface, self.color, rect)
     
-    def update(self):
-        self.delta_time = (pygame.time.get_ticks() - self.last_update_time) / 1000
-        self.last_update_time = pygame.time.get_ticks()
+    def update(self, delta_time: float):
+        self.delta_time = delta_time
 
     def reset_position(self):
+
+        def _get_screen_size_x() -> int:
+            return self.config.screen_size[0]
+        
+        def _get_screen_size_y() -> int:
+            return self.config.screen_size[1]
+
         plane_width = self.get_width()
         plane_height = self.get_height()
-        center_x = (self.get_screen_size_x() - plane_width) / 2
-        bottom_pos = self.get_screen_size_y() - plane_height - self.config.bottom_margin
+        center_x = (_get_screen_size_x() - plane_width) / 2
+        bottom_pos = _get_screen_size_y() - plane_height - self.config.bottom_margin
         self.position = [center_x, bottom_pos]
 
     def get_width(self):
@@ -63,11 +70,17 @@ class Player:
     def get_pos_y(self):
         return self.position[1]
     
-    def get_screen_size_x(self) -> int:
-        return self.config.screen_size[0]
-    
-    def get_screen_size_y(self) -> int:
-        return self.config.screen_size[1]
+    def get_position_center(self):
+        return [
+            self.position[0] + self.get_width() / 2,
+            self.position[1] + self.get_height() / 2,
+        ]
     
     def get_delta_time(self):
         return self.delta_time
+
+    def set_color_default(self):
+        self.color = COLOR
+
+    def set_color_collision_triggered(self):
+        self.color = COLLISION_TRIGGERED_COLOR
