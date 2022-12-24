@@ -47,14 +47,16 @@ class Ball(Entity):
         self.position[1] += self.direction[1] * distance
 
     def on_collision(self, collider: Collider):
-        print("collision entered {}".format(type(collider.entity)))
-    
-    def on_collision_enter(self, collider: Collider, direction: tuple):
+        # print("collision in progress {}".format(type(collider.entity)))
         pass
     
-    def on_collision_exit(self, collider: Collider, direction: tuple):
-        pass
+    def on_collision_enter(self, collider: Collider):
+        print("collision enter {}".format(type(collider.entity)))
+        self.set_color_collision_triggered()
     
+    def on_collision_exit(self, collider: Collider):
+        print("collision exit {}".format(type(collider.entity)))
+        self.set_color_default()
 
     def set_color_default(self):
         self.color = COLOR

@@ -25,7 +25,11 @@ class CollisionCheck:
                 collision_detected = self.check_collision(trigger, collider)
                 if collision_detected:
                     trigger.entity.on_collision(collider)
-    
+                    collider.entity.on_collision(collider)
+                    trigger.update_collision_status(True, collider)
+                else:
+                    trigger.update_collision_status(False, collider)
+
     def check_collision(self, trigger, collider) -> bool:
         circleCollider = None
         rectangleCollider = None
@@ -67,3 +71,4 @@ class CollisionCheck:
             return True
 
         return False
+

@@ -1,5 +1,7 @@
 from pygame import Surface
 import pygame
+from component.collider.collider import Collider
+from component.collider.rect_collider import RectangleCollider
 
 from config.player import PlayerConfig
 from core.entity import Entity
@@ -18,6 +20,8 @@ class Player(Entity):
         self.reset_position()
         self.size = config.initial_size
         self.delta_time = 0.0
+        self.collider = RectangleCollider((self.get_pos_x(), self.get_pos_y()), self.get_width(), self.get_height())
+        super().register_component(self.collider)
     
     def on_key_up(self, code):
         # print(code)
@@ -45,6 +49,7 @@ class Player(Entity):
     
     def update(self, delta_time: float):
         self.delta_time = delta_time
+        self.collider.set_position(self.position)
 
     def reset_position(self):
 
@@ -80,6 +85,15 @@ class Player(Entity):
     
     def get_delta_time(self):
         return self.delta_time
+
+    def on_collision(self, collider: Collider):
+        pass
+    
+    def on_collision_enter(self, collider: Collider):
+        self.set_color_collision_triggered()
+    
+    def on_collision_exit(self, collider: Collider):
+        self.set_color_default()
 
     def set_color_default(self):
         self.color = COLOR
