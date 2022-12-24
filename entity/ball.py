@@ -1,6 +1,8 @@
 from pygame import Surface
 import pygame
-from service.collision_manager.circle_collider import CircleCollider
+from component.collider.circle_collider import CircleCollider
+from component.collider.collider import Collider
+from core.entity import Entity
 
 from utils import to_array
 
@@ -19,45 +21,40 @@ MR = (1, 0)
 ML = (-1, 0)
 DIR_STILL = (0, 0)
 
-class Ball:
+class Ball(Entity):
     def __init__(self, position: tuple = (RADIOUS, RADIOUS), direction: tuple = BM, speed: float = 100.0, radious = RADIOUS, spawn_position=None) -> None:
+        super().__init__()
         self.color = COLOR
         self.position = to_array(position)
         self.direction = to_array(direction)
         self.speed = speed
         self.radious = radious
-        self.collider = CircleCollider(self.radious, position)
+        self.collider = CircleCollider(self.radious, position, is_trigger=True)
+        super().register_component(self.collider)
         if spawn_position != None:
             self.spawn_at(spawn_position)
-    
-    def on_key_up(self, code):
-        # print(code)
-        pass
-
-    def on_key_down(self, code):
-        if code == pygame.K_p:
-            self.set_color_collision_triggered()
-        if code == pygame.K_o:
-            self.set_color_default()
-        pass
-
-    def on_key_pressed(self, code):
-        pass
 
     def draw(self, surface: Surface):
         pygame.draw.circle(surface, self.color, self.position, self.radious)
 
     def update(self, delta_time: float):
         # self.move(delta_time * self.speed)
-        # self.position = to_array(pygame.mouse.get_pos())
+        self.position = to_array(pygame.mouse.get_pos())
         self.collider.set_position(self.position)
     
     def move(self, distance):
         self.position[0] += self.direction[0] * distance
         self.position[1] += self.direction[1] * distance
 
-    def on_collision(self, direction: tuple):
+    def on_collision(self, collider: Collider):
+        print("collision entered {}".format(type(collider.entity)))
+    
+    def on_collision_enter(self, collider: Collider, direction: tuple):
         pass
+    
+    def on_collision_exit(self, collider: Collider, direction: tuple):
+        pass
+    
 
     def set_color_default(self):
         self.color = COLOR

@@ -2,13 +2,15 @@ from pygame import Surface
 import pygame
 
 from config.player import PlayerConfig
+from core.entity import Entity
 
 COLOR = (100, 150, 20)
 COLLISION_TRIGGERED_COLOR = (255, 50, 50)
 
 
-class Player:
+class Player(Entity):
     def __init__(self, config: PlayerConfig) -> None:
+        super().__init__()
         self.color = COLOR
         self.config = config
         self.position = [0, 0]
