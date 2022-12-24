@@ -1,8 +1,8 @@
 import pygame
-from components.ball import Ball
-from components.board import Board
-from components.player import Player
-from components.test_component import TestRectangleComponent
+from entity.ball import Ball
+from entity.board import Board
+from entity.player import Player
+from entity.test_entity import TestRectangleEntity
 from service.key_manager import KeyManager
 from service.timer import Timer
 from service.collision_manager.collision_manager import check_circle_rectangle_collision
@@ -16,7 +16,7 @@ screen = pygame.display.set_mode([settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT]
 board = Board(settings.LEVEL)
 player = Player(settings.PLAYER)
 ball = Ball(radious=10.0, spawn_position=player.get_position_center())
-test_rect = TestRectangleComponent(200, 100, 200, 250)
+test_rect = TestRectangleEntity(200, 100, 200, 250)
 key_manager = KeyManager()
 timer = Timer()
 # collisionManager = CollisionManager()

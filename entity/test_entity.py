@@ -5,7 +5,7 @@ from service.collision_manager.rect_collider import RectangleCollider
 
 COLOR = (110, 110, 110)
 
-class TestRectangleComponent:
+class TestRectangleEntity:
     collider: RectangleCollider
     width: float
     height: float
